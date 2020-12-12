@@ -1,17 +1,30 @@
 const express = require('express');
+const hbs = require('hbs');
 
+hbs.registerPartials(__dirname + '/views/partials');
 const app = express();
 
-app.use(express.static('public'));
+app.set('view engine', 'hbs');
 
-app.get('/about', function (request, response) {
-  response.sendFile(__dirname + '/views/about.html');
+app.set('views', __dirname + '/views');
+
+app.use(express.static('public'));
+app.use(express.static('public/images'));
+
+app.get('/', (request, response) => {
+  response.render('home');
 });
-app.get('/work', function (request, response) {
-  response.sendFile(__dirname + '/views/work.html');
+
+app.get('/home', (request, response) => {
+  response.render('home');
 });
-app.get('*', function (request, response) {
-  response.sendFile(__dirname + '/views/home.html');
+
+app.get('/about', (request, response) => {
+  response.render('about');
+});
+
+app.get('/work', (request, response) => {
+  response.render('work');
 });
 
 app.listen(3000);
